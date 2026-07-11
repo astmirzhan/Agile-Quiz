@@ -1,0 +1,938 @@
+{
+ "A": [
+  {
+   "q": "What are the benefits of Agile project management compared to traditional approaches? [2]",
+   "options": [
+    "Increase in project scope",
+    "Speed up delivery",
+    "Reduce risk",
+    "Add more complexity"
+   ],
+   "correct": [
+    1,
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "What was the reason for introducing Agile Computing (max. one phrase)? [8]",
+   "options": [],
+   "correct": [],
+   "answer": "Challenges posed by novel and exploratory projects that involve high uncertainty, rapid change, and collaborative problem-solving."
+  },
+  {
+   "q": "What are the overall goals of agility in project management? [2]",
+   "options": [
+    "Adhere strictly to the initial plan",
+    "Respond to change",
+    "Extensive customer involvement",
+    "Avoid cross-functional collaboration"
+   ],
+   "correct": [
+    1,
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "Explain the concept of continuous improvement in Agile project management (max. one phrase)? [8]",
+   "options": [],
+   "correct": [],
+   "answer": "Integrating customer feedback from each iteration into subsequent cycles to enhance the product over time, with focus on continuously reflecting on and improving processes and teamwork."
+  },
+  {
+   "q": "How does Agile project management handle change management? [1]",
+   "options": [
+    "Through Integrated Change Control",
+    "Through separate change request processes",
+    "By integrating change into short cycles"
+   ],
+   "correct": [
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "What are the primary values of the Agile Manifesto? [2]",
+   "options": [
+    "Individuals and interactions",
+    "Process and tools",
+    "Comprehensive documentation",
+    "Responding to change"
+   ],
+   "correct": [
+    0,
+    3
+   ],
+   "answer": null
+  },
+  {
+   "q": "Describe the concept of incremental approach in Agile project management (max. one phrase). [6]",
+   "options": [],
+   "correct": [],
+   "answer": "Involves developing a product in increments based on feature priority, which allows for frequent delivery of usable components and early customer feedback."
+  },
+  {
+   "q": "According to agile principles, what is the primary measure of progress in software development? [2]",
+   "options": [
+    "Completion of project phases",
+    "Customer satisfaction surveys",
+    "Delivery of fully functional software",
+    "Number of meetings held"
+   ],
+   "correct": [
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "What is a core principle of agile development regarding team motivation? [1]",
+   "options": [
+    "Delegating all decisions from the project leader",
+    "Micromanaging each team member's work",
+    "Encouraging team members to make decisions on their own"
+   ],
+   "correct": [
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "What are key aspects of face-to-face communication in agile development? [2]",
+   "options": [
+    "It is always conducted in a formal meeting setting",
+    "It is essential for effective information sharing among team members",
+    "It is the primary communication method regardless of circumstances",
+    "It is used alongside other communication media when necessary"
+   ],
+   "correct": [
+    1,
+    3
+   ],
+   "answer": null
+  },
+  {
+   "q": "What does sustaining a constant pace of development in agile encourage? [1]",
+   "options": [
+    "Irregular working hours",
+    "Working overtime to meet deadlines",
+    "Consistent and sustainable work hours"
+   ],
+   "correct": [
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "Explain the purpose of continuous attention to technical excellence in agile development (max. one phrase!).[6]",
+   "options": [],
+   "correct": [],
+   "answer": "It ensures that the developed products meet high-quality standards, incorporate best practices, and remain adaptable to changing requirements."
+  },
+  {
+   "q": "Describe the key differences between a waterfall model and an agile model in terms of their approach to software development (max. one phrase!). [6]",
+   "options": [],
+   "correct": [],
+   "answer": "The waterfall model follows a linear, sequential approach where each phase (requirements, design, development, testing, deployment) must be completed before the next begins, while the agile model develops software iteratively in short cycles with continuous customer feedback."
+  },
+  {
+   "q": "What is a key limitation of the waterfall model regarding customer feedback? [1]",
+   "options": [
+    "Feedback is obtained early in the process",
+    "Feedback is provided during development",
+    "Feedback is obtained only after testing"
+   ],
+   "correct": [
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "How does an incremental model differ from a traditional waterfall model? [1]",
+   "options": [
+    "It completes all development phases in a linear sequence",
+    "It prioritizes features into must-have, should-have, and nice-to-have categories",
+    "It releases working software only after all steps are completed"
+   ],
+   "correct": [
+    1
+   ],
+   "answer": null
+  },
+  {
+   "q": "Describe the traditional role of a project plan (max. one phrase!) [6]",
+   "options": [],
+   "correct": [],
+   "answer": "Comprehensive document that aids project managers in executing and overseeing project phases."
+  },
+  {
+   "q": "Explain how an agile project plan differs from a plan used in a defined development model (max. one phrase!). [8]",
+   "options": [],
+   "correct": [],
+   "answer": "An agile project plan is viewed as a flexible guide that adapts to changing requirements."
+  },
+  {
+   "q": "What does the agile iron triangle prioritize as the main fixed constraint for project success? [1]",
+   "options": [
+    "Scope",
+    "Cost",
+    "Schedule"
+   ],
+   "correct": [
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "According to the agile iron triangle, what is the main goal of project success? [2]",
+   "options": [
+    "Adapting to fixed plans",
+    "Meeting predefined scope and cost",
+    "Delivering value to the customer",
+    "Following a strict schedule"
+   ],
+   "correct": [
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "Describe the key differences between the traditional iron triangle of constraints and the agile iron triangle (max. one phrase!). [6]",
+   "options": [],
+   "correct": [],
+   "answer": "The traditional iron triangle focuses on predefined scope, cost, and schedule as fixed constraints for project success, while the agile iron triangle fixes time and cost but keeps scope flexible, prioritizing customer value and quality."
+  }
+ ],
+ "B": [
+  {
+   "q": "Who assumes much of the responsibility of a traditional project manager in agile projects?[1]",
+   "options": [
+    "Bussiness analyst",
+    "Scrum master",
+    "Project leader"
+   ],
+   "correct": [
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "What responsibilities does a Scrum Master typically have in agile projects? [2]",
+   "options": [
+    "Delegating tasks to team members",
+    "Tracking and monitoring project progress",
+    "Managing cross-team coordination",
+    "Coaching teams to achieve their goals"
+   ],
+   "correct": [
+    1,
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "Briefly describe the role of a product manager (or product owner) in agile projects (max. two phrases!). [6]",
+   "options": [],
+   "correct": [],
+   "answer": "The role of a product manager (or product owner) in agile projects is to ensure that the delivered product meets customer requirements."
+  },
+  {
+   "q": "What is a key characteristic of T-shaped competence in agile teams? [2]",
+   "options": [
+    "Narrow focus on a specific field",
+    "Lack of breadth of knowledge",
+    "Ability to collaborate with specialists from other areas",
+    "Depth of knowledge not only in one area"
+   ],
+   "correct": [
+    2,
+    3
+   ],
+   "answer": null
+  },
+  {
+   "q": "Name the three variables used to calculate speed according to the concept of team velocity in agile projects (max. six words!). [3]",
+   "options": [],
+   "correct": [],
+   "answer": "Lead time, cycle time, response time"
+  }
+ ],
+ "C": [
+  {
+   "q": "How does risk response planning differ in agile projects compared to traditional projects? [2]",
+   "options": [
+    "Conducted by project managers only",
+    "Happens at the beginning of each project phase",
+    "Involves the entire team and occurs more frequently",
+    "Is less intensive than in traditional projects"
+   ],
+   "correct": [
+    2,
+    3
+   ],
+   "answer": null
+  },
+  {
+   "q": "Describe key components of an \"exception plan\" in agile risk management (max. 20 words). [8]",
+   "options": [],
+   "correct": [],
+   "answer": "Circumstances for the exception, causes of the circumstance, tolerance limits, possible solutions, recommended solutions, and consequences of each solution."
+  },
+  {
+   "q": "How is risk analysis typically performed in agile projects? [1]",
+   "options": [
+    "Quantitative risk analysis",
+    "Qualitative risk analysis",
+    "Both quantitative and qualitative risk analysis"
+   ],
+   "correct": [
+    1
+   ],
+   "answer": null
+  },
+  {
+   "q": "What does a risk burndown chart track over time in an agile project? [1]",
+   "options": [
+    "Severity of different project risks",
+    "Team velocity",
+    "Customer satisfaction ratings"
+   ],
+   "correct": [
+    0
+   ],
+   "answer": null
+  },
+  {
+   "q": "What is the purpose of a spike in agile development? [1]",
+   "options": [
+    "To complete a user story",
+    "To resolve technical uncertainties quickly",
+    "To document project risks formally"
+   ],
+   "correct": [
+    1
+   ],
+   "answer": null
+  },
+  {
+   "q": "How are risks monitored in agile teams? [1]",
+   "options": [
+    "Recorded in a formal risk register",
+    "Monitored using highly visible information radiators",
+    "Discussed only during iteration review meetings"
+   ],
+   "correct": [
+    1
+   ],
+   "answer": null
+  },
+  {
+   "q": "Explain the role of landing zones in agile risk management. Max. one phrase! [6]",
+   "options": [],
+   "correct": [],
+   "answer": "Landing zones define a range of acceptable product functionality and characteristics agreed upon between the team and the customer."
+  },
+  {
+   "q": "How is a short sprint called, that usually is of fixed length and in which a team examines a solution makes a prototype to demonstrate the feasibility of this solution? Max. one word! [1]",
+   "options": [],
+   "correct": [],
+   "answer": "Spike"
+  }
+ ],
+ "D": [
+  {
+   "q": "Who is responsible for verifying and continually improving product quality in an agile project? [2]",
+   "options": [
+    "Developers",
+    "Quality assurance staff only",
+    "AlI project team members",
+    "Project managers"
+   ],
+   "correct": [
+    0,
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "What is the purpose of quality control in agile development? [2]",
+   "options": [
+    "Preventing defects",
+    "Identifying and resolving defects",
+    "Executing acceptance tests",
+    "Writing and executing unit tests"
+   ],
+   "correct": [
+    1,
+    3
+   ],
+   "answer": null
+  },
+  {
+   "q": "Besides product quality, what are the other main areas where quality is important in agile projects? [2]",
+   "options": [
+    "Budget management",
+    "Communications",
+    "Human resources",
+    "Conduct and compliance"
+   ],
+   "correct": [
+    1,
+    3
+   ],
+   "answer": null
+  },
+  {
+   "q": "What is technical debt in the context of agile projects? [2]",
+   "options": [
+    "Financial debt incurred by the project team",
+    "Consequences of taking technical shortcuts during development",
+    "Interest paid on project delays",
+    "Quality defects identified during testing"
+   ],
+   "correct": [
+    1,
+    3
+   ],
+   "answer": null
+  },
+  {
+   "q": "Explain the concept of \"escaped defects\" in quality assurance. Max. one phrase![8]",
+   "options": [],
+   "correct": [],
+   "answer": "It refers to defects that have bypassed quality assurance processes and have been identified after the product is released or delivered to the customer."
+  }
+ ],
+ "E": [
+  {
+   "q": "Why are fixed-price contracts generally not considered suitable for agile projects?[2]",
+   "options": [
+    "They allow for flexibility in scope",
+    "They align well with changing requirements",
+    "They place risk on the project team",
+    "They do not sufficiently address customer requirements"
+   ],
+   "correct": [
+    2,
+    3
+   ],
+   "answer": null
+  },
+  {
+   "q": "Which type of contract operates on a pay-as-you-use basis in agile projects? [2]",
+   "options": [
+    "Fixed-price contract",
+    "Cost-reimbursable contract",
+    "Service contract",
+    "Time-and-materials contracts"
+   ],
+   "correct": [
+    1,
+    3
+   ],
+   "answer": null
+  }
+ ],
+ "F": [
+  {
+   "q": "Which myths about agile project management are commonly misconceived? [2]",
+   "options": [
+    "Agile project management can't work with other plan-driven or process models.",
+    "Agile project management requires no documentation.",
+    "Agile project management is specific to software development.",
+    "Agile projects don't require planning."
+   ],
+   "correct": [
+    0,
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "What misconceptions exist about documentation in agile project management? [2]",
+   "options": [
+    "Agile projects require comprehensive documentation.",
+    "Agile teams don't create any documentation.",
+    "Agile projects require detailed work breakdown structures."
+   ],
+   "correct": [
+    1,
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "How should organizations approach transitioning from traditional to agile project management? [2]",
+   "options": [
+    "Abandon all traditional practices immediately.",
+    "Combine agile and traditional principles gradually.",
+    "Stick exclusively to agile practices.",
+    "Implement agile practices without any planning."
+   ],
+   "correct": [
+    1,
+    3
+   ],
+   "answer": null
+  },
+  {
+   "q": "Summarize the key points about Capability Maturity Model Integration (CMMI) Max. 15 words! [8]",
+   "options": [],
+   "correct": [],
+   "answer": "CMMI provides discipline through defined activities, goals, and practices for process enhancement."
+  },
+  {
+   "q": "What does the term \"project criticality\" refer to? (max. one phrase!) [8]",
+   "options": [],
+   "correct": [],
+   "answer": "Project criticality refers to the severity of the impact a project's failure could have, on stakeholders such as customers."
+  },
+  {
+   "q": "What type of organizational structure is most conducive to implementing an agile methodology? [1]",
+   "options": [
+    "Cooperative",
+    "Hybrid of hierarchical and cooperative",
+    "Project-based"
+   ],
+   "correct": [
+    0
+   ],
+   "answer": null
+  },
+  {
+   "q": "What does the term \"project criticality\" refer to? [1]",
+   "options": [
+    "The size and complexity of a project",
+    "The severity of impact a project's failure could have",
+    "The level of stakeholder involvement in a project"
+   ],
+   "correct": [
+    1
+   ],
+   "answer": null
+  },
+  {
+   "q": "What characteristics make a project best suited for an agile methodology? [2]",
+   "options": [
+    "Low level of internal uncertainty",
+    "Lack of a well-defined scope",
+    "Requires ongoing customer feedback",
+    "Does not require frequent reviews and adjustments"
+   ],
+   "correct": [
+    1,
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "What are some potential impacts of using an agile methodology on a project? [2]",
+   "options": [
+    "Weakly defined development cycles",
+    "Improved quality and efficiency",
+    "Avoidance of unnecessary communication",
+    "Better customer satisfaction"
+   ],
+   "correct": [
+    1,
+    3
+   ],
+   "answer": null
+  },
+  {
+   "q": "Why is continuous customer involvement crucial in agile methodologies? (max. one phrase!) [8]",
+   "options": [],
+   "correct": [],
+   "answer": "This ensures that requirements can evolve as work progresses and that the final product meets the customer's needs effectively."
+  },
+  {
+   "q": "When is an agile approach especially suitable for a project? [2]",
+   "options": [
+    "When a project has a well-defined scope",
+    "When a project involves a high level of internal uncertainty",
+    "When a project benefits from customer feedback",
+    "When a project has a rigid and fixed timeline"
+   ],
+   "correct": [
+    1,
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "Which structural and cultural characteristics are likely to make it easier for an organization to transition into using an agile methodology? [2]",
+   "options": [
+    "Employees work in small teams and are accustomed to deciding how best to complete their tasks",
+    "Employees have clear roles and are given detailed work instructions",
+    "Employees do not compete with one another to achieve the best results",
+    "Employees are given only the information they need to get their work done"
+   ],
+   "correct": [
+    0,
+    2
+   ],
+   "answer": null
+  }
+ ],
+ "G": [
+  {
+   "q": "Who in the Scrum team is responsible to provide a clear vision for the product to be developed? Max. two words! [2]",
+   "options": [],
+   "correct": [],
+   "answer": "Product owner"
+  },
+  {
+   "q": "Who in the Scrum team is responsible for ensuring that the product delivered as part of a project meets customer requirements? This role is often assumed by a local customer or a customer representative? [1]",
+   "options": [
+    "Lead programmer",
+    "Project Manager",
+    "Product Owner"
+   ],
+   "correct": [
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "What do you expect from a Scrum master? [2]",
+   "options": [
+    "She/he ensures that new product features are explained to the customer clearly and in a catchy manner.",
+    "She/he explains to customers the needs and constraints of the project team.",
+    "She/he is responsible for tracking and monitoring project progress.",
+    "She/he helps team members achieve project goals and ensures that a project is moving in the right direction."
+   ],
+   "correct": [
+    2,
+    3
+   ],
+   "answer": null
+  },
+  {
+   "q": "How is the meeting called in which team members discuss what was done during the previous 24 hours, what will happen during the next 24 hours, and any obstacles that have arisen? [1]",
+   "options": [
+    "Sprint standup",
+    "Daily standby meeting",
+    "Daily Scrum"
+   ],
+   "correct": [
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "How is a meeting called in Scrum that takes place in large projects with multiple teams, to coordinate the work of the teams? Max. three words! [2]",
+   "options": [],
+   "correct": [],
+   "answer": "Scrum of scrums"
+  },
+  {
+   "q": "How is the Scrum activity called where the team defines the tasks and goals for the upcoming iteration? Max. two words! [2]",
+   "options": [],
+   "correct": [],
+   "answer": "Sprint planning"
+  },
+  {
+   "q": "In a Scrum team, Mike is responsible for ensuring that the product delivered as part of a project meets customer requirements. What kind of roles/responsibilities has Mike in the Scrum team? [2]",
+   "options": [
+    "He is the product owner.",
+    "He is responsible for tracking and monitoring project progress.",
+    "He is the main author of user stories.",
+    "He organizes the burn-down charts."
+   ],
+   "correct": [
+    0,
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "In Scrum teams, there is usually one person that helps team members achieve project goals and ensures that a project is moving in the right direction. Which role has this person usually in Scrum teams? [1]",
+   "options": [
+    "Scrum master",
+    "Project Leader",
+    "Project Manager"
+   ],
+   "correct": [
+    0
+   ],
+   "answer": null
+  },
+  {
+   "q": "What is the name of a meeting at the end of each sprint in which the Scrum team, along with Scrum Master, Product Owner, and Developers, evaluate the results of the sprint. Max. three words! [3]",
+   "options": [],
+   "correct": [],
+   "answer": "Sprint review meeting"
+  },
+  {
+   "q": "Who in the Scrum team measures how well a project performs in terms of return on investment, or ROI? Max. two words! [2]",
+   "options": [],
+   "correct": [],
+   "answer": "Product owner"
+  },
+  {
+   "q": "What is the name of the role the Scrum master adopts in order to facilitate collaboration, support everyone's best thinking and work, encourage the team's participation, understanding, and shared responsibility, and to change or remove organizational impediments? Max. two words! [2]",
+   "options": [],
+   "correct": [],
+   "answer": "Servant leader"
+  },
+  {
+   "q": "Which are charcteristics of the optimal Scrum team? [2]",
+   "options": [
+    "Self-reliant",
+    "Cross-competent",
+    "Self-organizing",
+    "Cross-functional"
+   ],
+   "correct": [
+    2,
+    3
+   ],
+   "answer": null
+  },
+  {
+   "q": "After each sprint review meeting, the Scrum Master conducts a meeting with the development team to discuss how the sprint went and how it could have been improved. How is this meeting called? Max. two words! [2]",
+   "options": [],
+   "correct": [],
+   "answer": "Sprint retrospective"
+  },
+  {
+   "q": "To track its progress, a Scrum team uses which instruments? [2]",
+   "options": [
+    "Story points burndowns",
+    "Burnup charts",
+    "Progressive charts",
+    "Burndown charts"
+   ],
+   "correct": [
+    1,
+    3
+   ],
+   "answer": null
+  },
+  {
+   "q": "As well as charts, you can use various metrics to track and report on the progress of a Scrum project. Which of the following is a valid matric used in Scrum?[1]",
+   "options": [
+    "lines of code",
+    "standards violation",
+    "scrum points"
+   ],
+   "correct": [
+    1
+   ],
+   "answer": null
+  }
+ ],
+ "H": [
+  {
+   "q": "The agile project management cycle differs from the traditional project management cycle. It usually defines five phases. Name the five phases in the correct order? Max. five words! [5]",
+   "options": [],
+   "correct": [],
+   "answer": "Envisioning - speculation - exploring - adapting - closing."
+  },
+  {
+   "q": "Identify the differences between the agile adapting and traditional Controlling phases. [2]",
+   "options": [
+    "Adapting involves reassessing project deliverables whereas Controlling involves working according to a pre-defined project plan",
+    "Adapting begins when the product meets all customer specifications whereas Controlling involves planning every phase of a project",
+    "Adapting involves coordinating project work whereas Controlling involves reassessing deliverables",
+    "Adapting begins when project objectives are determined whereas Controlling begins when a detailed project plan is created"
+   ],
+   "correct": [
+    0
+   ],
+   "answer": null
+  },
+  {
+   "q": "What is the primary focus during the envisioning phase of an agile project? [1]",
+   "options": [
+    "Creating a detailed project plan",
+    "Determining and refining the project's vision and scope",
+    "Managing team interactions with stakeholder"
+   ],
+   "correct": [
+    1
+   ],
+   "answer": null
+  },
+  {
+   "q": "How does the closing phase in agile projects differ from traditional project management? [2]",
+   "options": [
+    "It involves completing all project work and recording lessons learned",
+    "It only begins after several iterations with deliverables handed to the customer",
+    "It focuses primarily on handing over final rables to the project sponsor",
+    "It is not typically included in agile project methodologies"
+   ],
+   "correct": [
+    1,
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "What are some key differences between agile and traditional project management phases? [2]",
+   "options": [
+    "Agile projects emphasize ongoing customer involvement and iterative review",
+    "Traditional projects often have a fixed, detailed project scope from the start",
+    "Agile teams are self-organizing and requirements customer involvement",
+    "Traditional projects focus more on executing according to a predefined plan"
+   ],
+   "correct": [
+    0,
+    1
+   ],
+   "answer": null
+  },
+  {
+   "q": "Which phase of an agile project involves designing, building, and testing features in increments useful to the customer? Max. one word! [2]",
+   "options": [],
+   "correct": [],
+   "answer": "Exploring"
+  },
+  {
+   "q": "What activities are typically conducted during the speculating phase in agile projects? [1]",
+   "options": [
+    "Building and testing features",
+    "Developing rough project and release plans",
+    "Adapting product features based on feedback"
+   ],
+   "correct": [
+    1
+   ],
+   "answer": null
+  },
+  {
+   "q": "In the adapting phase of an agile project, what are the primary responsibilities of the project leader? Max. one phrase! [6]",
+   "options": [],
+   "correct": [],
+   "answer": "Make adjustments based on feedback and team dynamics"
+  }
+ ],
+ "I": [
+  {
+   "q": "Name three important principles propagated by XP. Max. ten words! [6]",
+   "options": [],
+   "correct": [],
+   "answer": "pair programming, sustainable pace, ongoing automated testing."
+  },
+  {
+   "q": "Which methodology encourages no more than 40 hours of work per week to maintain a sustainable work pace? Max. two words! [2]",
+   "options": [],
+   "correct": [],
+   "answer": "XP/extreme programming"
+  },
+  {
+   "q": "The Adaptive Software Development (ASD) methodology consists of which of the following phases? [1]",
+   "options": [
+    "Analyze, Buila, Control",
+    "Speculate, Collaborate, Learn",
+    "Plan, Do, Check"
+   ],
+   "correct": [
+    1
+   ],
+   "answer": null
+  },
+  {
+   "q": "How is a project in the Crystal methodology called that includes up to around six members and these members are all expected to be co-located? Max. two words! [2]",
+   "options": [],
+   "correct": [],
+   "answer": "Crystal clear"
+  },
+  {
+   "q": "Which stage is part of the Dynamic Systems Development Method (DSDM) project life cycle? [1]",
+   "options": [
+    "Initial Planning",
+    "Business Study",
+    "Post-Implementation Review"
+   ],
+   "correct": [
+    1
+   ],
+   "answer": null
+  },
+  {
+   "q": "Which methodology encourages no more than 40 hours of work per week to maintain a sustainable work pace? [1]",
+   "options": [
+    "Scrum",
+    "XP",
+    "FDD"
+   ],
+   "correct": [
+    1
+   ],
+   "answer": null
+  },
+  {
+   "q": "How is the phase in ASD called that includes feedback from end users who've tried using the developed software? Max. one word! [1]",
+   "options": [],
+   "correct": [],
+   "answer": "Learn"
+  },
+  {
+   "q": "What are the specific roles defined in a Crystal Clear project team? Max. five words! [6]",
+   "options": [],
+   "correct": [],
+   "answer": "sponsor, senior designer, programmer."
+  },
+  {
+   "q": "What is a core principle of Lean software development? [1]",
+   "options": [
+    "Encouraging long development cycles",
+    "Emphasizing unnecessary documentation",
+    "Focusing on system integrity"
+   ],
+   "correct": [
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "According to Lean development, how does the principle of 'deliver software quickly' translate into practice? [1]",
+   "options": [
+    "Anticipating future customer needs",
+    "Identifying and maintaining bottlenecks in the process",
+    "Planning smaller releases of software after shorter periods"
+   ],
+   "correct": [
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "Briefly explain the principle of 'eliminate waste' in Lean development. Max. one phrase! [6]",
+   "options": [],
+   "correct": [],
+   "answer": "Removing unnecessary activities, documentation, and product features that do not add direct value to the end product."
+  },
+  {
+   "q": "What is meant by 'sustainable pace' in the context of XP? Max. one phrase! [6]",
+   "options": [],
+   "correct": [],
+   "answer": "Practice of team members working no more than 40 hours per week to ensure consistent and reliable delivery of software, avoiding burnout and overtime."
+  },
+  {
+   "q": "What is a distinguishing feature of Feature-driven development (FDD)? [1]",
+   "options": [
+    "It is unstructured but highly adaptive.",
+    "It emphasizes a business perspective more than a technical one.",
+    "It provides a prescriptive model that is managed at the level of individual features."
+   ],
+   "correct": [
+    2
+   ],
+   "answer": null
+  },
+  {
+   "q": "During which phase of the Unified Process (UP) does the project proceed with iterations focused on developing small, production-worthy pieces of software? [1]",
+   "options": [
+    "Inception",
+    "Elaboration",
+    "Construction"
+   ],
+   "correct": [
+    2
+   ],
+   "answer": null
+  }
+ ]
+}
