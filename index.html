@@ -163,11 +163,11 @@ footer{text-align:center;color:var(--muted);font-size:.75rem;margin-top:40px}
     <div class="mode-row">
       <button class="mode-card selected" data-mode="practice">
         <div class="name">Practice</div>
-        <div class="desc">Instant feedback after each question</div>
+        <div class="desc">Auto-graded feedback after each question</div>
       </button>
       <button class="mode-card" data-mode="exam">
         <div class="name">Exam</div>
-        <div class="desc">Results shown at the end</div>
+        <div class="desc">Points scored, results at the end · 50% to pass</div>
       </button>
     </div>
     <button class="start-btn" id="start" disabled>Start quiz</button>
@@ -263,11 +263,13 @@ function render(){
   $('counter').textContent=`${idx+1} / ${quiz.length}`;
   $('bar').style.width=(idx/quiz.length*100)+'%';
   const isMulti=q.correct.length>1;
+  const maxPts=q.options.length ? (isMulti?q.correct.length:1) : parseMaxPoints(q.q);
   $('qmeta').innerHTML=
     `<span class="chip">Part ${q.part}</span>`+
     (q.options.length
       ? `<span class="chip type">${isMulti?'Multiple answers':'Single answer'}</span>`
-      : `<span class="chip type">Written answer</span>`);
+      : `<span class="chip type">Written answer</span>`)+
+    `<span class="chip">${maxPts} ${maxPts===1?'pt':'pts'}</span>`;
   $('qtext').textContent=q.q;
   $('feedback').innerHTML='';
   const body=$('qbody'), actions=$('actions');
@@ -299,21 +301,33 @@ function render(){
     actions.appendChild(submitBtn);
   } else {
     const ta=document.createElement('textarea');
-    ta.placeholder='Type your answer here… then reveal and grade yourself.';
+    ta.placeholder='Type your answer here… (checked strictly, word for word)';
     body.appendChild(ta);
-    actions.appendChild(mkBtn('Show answer','btn',()=>{
-      revealed=true;
-      const ab=document.createElement('div'); ab.className='answer-box';
-      ab.innerHTML=`<div class="lbl">Correct answer</div>${escapeHtml(q.answer||'—')}`;
-      body.appendChild(ab);
-      const sg=document.createElement('div'); sg.className='self-grade';
-      const yes=mkBtn('✓ I got it right','yes',()=>finishOpen(q,true,ta.value));
-      const no=mkBtn('✗ I got it wrong','no',()=>finishOpen(q,false,ta.value));
-      sg.append(yes,no); body.appendChild(sg);
-      actions.innerHTML='';
-      window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
-    }));
+    const submitBtn=mkBtn(selMode==='practice'?'Check answer':'Submit','btn',()=>gradeOpen(q,ta,submitBtn));
+    submitBtn.disabled=true;
+    ta.addEventListener('input',()=>{ if(!revealed) submitBtn.disabled=ta.value.trim()===''; });
+    actions.appendChild(submitBtn);
   }
+}
+
+function gradeOpen(q,ta,submitBtn){
+  if(revealed) return;
+  revealed=true;
+  const {earned,max}=scoreQuestion(q,null,ta.value);
+  const ok=earned===max && max>0 ? true : earned>0;
+  results.push({q,pickedArr:null,userText:ta.value,earned,max});
+  if(selMode==='practice'){
+    ta.disabled=true; submitBtn.disabled=true;
+    const ab=document.createElement('div'); ab.className='answer-box';
+    ab.innerHTML=`<div class="lbl">Correct answer</div>${escapeHtml(q.answer||'—')}`;
+    $('qbody').appendChild(ab);
+    $('feedback').innerHTML=`<div class="feedback ${ok?'ok':'bad'}">${ok
+      ? `✓ Exact match — ${earned} / ${max} pts`
+      : `✗ Not word-for-word — ${earned} / ${max} pts`}</div>`;
+    $('actions').innerHTML='';
+    $('actions').appendChild(mkBtn(idx+1<quiz.length?'Next question →':'See results','btn',next));
+    window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+  } else next();
 }
 
 function mkBtn(txt,cls,fn){
@@ -325,8 +339,9 @@ function mkBtn(txt,cls,fn){
 function gradeMCQ(q,box){
   revealed=true;
   const correct=new Set(q.correct);
-  const isRight=picked.size===correct.size && [...picked].every(i=>correct.has(i));
-  results.push({q,pickedArr:[...picked],right:isRight});
+  const {earned,max}=scoreQuestion(q,[...picked],null);
+  const full=earned===max;
+  results.push({q,pickedArr:[...picked],userText:null,earned,max});
   if(selMode==='practice'){
     box.querySelectorAll('.opt').forEach(b=>{
       const i=+b.dataset.i; b.disabled=true;
@@ -334,15 +349,12 @@ function gradeMCQ(q,box){
       else if(picked.has(i)) b.className=b.className.replace('picked','')+' wrong';
       else if(correct.has(i)) b.classList.add('missed');
     });
-    $('feedback').innerHTML=`<div class="feedback ${isRight?'ok':'bad'}">${isRight?'✓ Correct!':'✗ Not quite — correct answer highlighted above'}</div>`;
+    $('feedback').innerHTML=`<div class="feedback ${full?'ok':'bad'}">${full
+      ? `✓ Correct! ${earned} / ${max} pts`
+      : `${earned>0?'◐ Partial':'✗ Incorrect'} — ${earned} / ${max} pts · correct answer highlighted above`}</div>`;
     $('actions').innerHTML='';
     $('actions').appendChild(mkBtn(idx+1<quiz.length?'Next question →':'See results','btn',next));
   } else next();
-}
-
-function finishOpen(q,right,userText){
-  results.push({q,userText,right});
-  next();
 }
 
 function next(){
@@ -355,36 +367,38 @@ function next(){
 function showResults(){
   $('quiz').classList.add('hidden');
   const r=$('results'); r.classList.remove('hidden');
-  const right=results.filter(x=>x.right).length;
-  const pct=Math.round(right/results.length*100);
-  const color=pct>=80?'var(--green)':pct>=50?'var(--amber)':'var(--red)';
+  const earned=results.reduce((s,x)=>s+x.earned,0);
+  const total=results.reduce((s,x)=>s+x.max,0);
+  const pct=total?Math.round(earned/total*100):0;
+  const passed=pct>=50;                          // 50% pass mark (like 50/100 in the exam)
+  const color=passed?'var(--green)':'var(--red)';
   const C=2*Math.PI*62;
   let html=`<div class="result-card">
     <div class="score-ring">
       <svg width="150" height="150"><circle cx="75" cy="75" r="62" fill="none" stroke="var(--surface2)" stroke-width="11"/>
       <circle cx="75" cy="75" r="62" fill="none" stroke="${color}" stroke-width="11" stroke-linecap="round"
         stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct/100)}"/></svg>
-      <div class="num"><b>${pct}%</b><span>${right} / ${results.length}</span></div>
+      <div class="num"><b>${earned}<span style="font-size:1rem;color:var(--muted)">/${total}</span></b><span>${pct}% · ${passed?'PASS':'FAIL'}</span></div>
     </div>
-    <div class="result-line">${pct>=80?'Excellent — you are ready! 🎉':pct>=50?'Decent, but review the mistakes below.':'Keep practicing — review the mistakes below.'}</div>
+    <div class="result-line">${passed?'✓ Above the 50% pass mark — well done! 🎉':'✗ Below the 50% pass mark — review the items below.'}</div>
     <div class="actions" style="margin-top:0">
       <button class="btn ghost" id="home-btn">Home</button>
       <button class="btn" id="retry-btn">Try again</button>
     </div>
   </div>`;
-  const wrong=results.filter(x=>!x.right);
+  const wrong=results.filter(x=>x.earned<x.max);
   if(wrong.length){
-    html+=`<div class="section-label">Mistakes (${wrong.length})</div>`;
+    html+=`<div class="section-label">Review — points lost (${wrong.length})</div>`;
     wrong.forEach(x=>{
       let ans;
       if(x.q.options.length){
         const corr=x.q.correct.map(i=>x.q.options[i]).join('; ');
-        const yours=x.pickedArr.map(i=>x.q.options[i]).join('; ')||'—';
+        const yours=(x.pickedArr||[]).map(i=>x.q.options[i]).join('; ')||'—';
         ans=`<span class="u">Your answer: ${escapeHtml(yours)}</span><br><b>Correct: ${escapeHtml(corr)}</b>`;
       }else{
         ans=`<span class="u">Your answer: ${escapeHtml(x.userText||'—')}</span><br><b>Correct: ${escapeHtml(x.q.answer||'—')}</b>`;
       }
-      html+=`<div class="review-item bad"><div class="rq">[Part ${x.q.part}] ${escapeHtml(x.q.q)}</div><div class="ra">${ans}</div></div>`;
+      html+=`<div class="review-item bad"><div class="rq">[Part ${x.q.part}] ${escapeHtml(x.q.q)} <span style="color:var(--muted);font-weight:600">(${x.earned}/${x.max} pts)</span></div><div class="ra">${ans}</div></div>`;
     });
   }
   r.innerHTML=html;
@@ -398,6 +412,44 @@ function showResults(){
 }
 
 function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+/* ---------- scoring helpers ---------- */
+// Max points = the [N] at the very end of the question text.
+function parseMaxPoints(text){
+  const m=String(text).match(/\[(\d+)\]\s*$/);
+  return m?parseInt(m[1],10):1;
+}
+// Strict, word-for-word comparison for open questions.
+// Lowercase, strip punctuation, collapse whitespace, then require identical words.
+function normalizeText(s){
+  return String(s)
+    .toLowerCase()
+    .replace(/[.,;:!?()"'`´“”«»\-–—/\\]+/g,' ')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+function strictMatch(user,answer){
+  const a=normalizeText(user), b=normalizeText(answer);
+  return a.length>0 && a===b;
+}
+// Score any question -> {earned, max}
+function scoreQuestion(q,pickedArr,userText){
+  if(!q.options.length){                       // free-text
+    const max=parseMaxPoints(q.q);
+    return {earned:strictMatch(userText,q.answer||'')?max:0, max};
+  }
+  const correct=new Set(q.correct);
+  const picked=new Set(pickedArr||[]);
+  if(correct.size>1){                           // multiple-choice: +1 correct, -1 wrong, min 0
+    const max=correct.size;
+    let s=0;
+    picked.forEach(i=>{ s += correct.has(i)?1:-1; });
+    return {earned:Math.max(0,s), max};
+  }
+  // single-choice: 1 point all-or-nothing
+  const right = picked.size===1 && correct.has([...picked][0]);
+  return {earned:right?1:0, max:1};
+}
 </script>
 </body>
 </html>
