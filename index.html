@@ -125,6 +125,7 @@ textarea:focus{outline:none;border-color:var(--accent)}
 .feedback{margin-top:16px;padding:12px 14px;border-radius:12px;font-size:.92rem;font-weight:600}
 .feedback.ok{background:var(--green-soft);color:var(--green)}
 .feedback.bad{background:var(--red-soft);color:var(--red)}
+.feedback.mid{background:rgba(180,83,9,.10);color:var(--amber)}
 
 /* ---------- results ---------- */
 .result-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 20px;text-align:center}
@@ -159,6 +160,17 @@ footer{text-align:center;color:var(--muted);font-size:.75rem;margin-top:40px}
   <div id="home">
     <div class="section-label">Choose a part</div>
     <div class="parts" id="parts"></div>
+    <div class="section-label">Open-answer training (type it out)</div>
+    <div class="mode-row" id="open-parts">
+      <button class="part-card" data-part="OPEN_SHORT">
+        <span class="name">✍️ Short answers</span>
+        <span class="count" id="short-count"></span>
+      </button>
+      <button class="part-card" data-part="OPEN_LONG">
+        <span class="name">📝 Long answers</span>
+        <span class="count" id="long-count"></span>
+      </button>
+    </div>
     <div class="section-label">Mode</div>
     <div class="mode-row">
       <button class="mode-card selected" data-mode="practice">
@@ -219,11 +231,24 @@ allBtn.className='part-card all'; allBtn.dataset.part='ALL';
 allBtn.innerHTML=`<span class="name">🔥 All parts — full mix</span><span class="count">${allCount} questions</span>`;
 partsEl.appendChild(allBtn);
 
-partsEl.addEventListener('click',e=>{
-  const card=e.target.closest('.part-card'); if(!card) return;
-  partsEl.querySelectorAll('.part-card').forEach(c=>c.classList.remove('selected'));
+// counts for the open-answer training blocks
+let shortN=0, longN=0;
+parts.forEach(p=>DATA[p].forEach(q=>{
+  if(!q.options.length){ openCategory(q)==='short' ? shortN++ : longN++; }
+}));
+$('short-count').textContent=`${shortN} questions`;
+$('long-count').textContent=`${longN} questions`;
+
+function pickPart(card){
+  document.querySelectorAll('.part-card').forEach(c=>c.classList.remove('selected'));
   card.classList.add('selected'); selPart=card.dataset.part;
   $('start').disabled=false;
+}
+partsEl.addEventListener('click',e=>{
+  const card=e.target.closest('.part-card'); if(card) pickPart(card);
+});
+$('open-parts').addEventListener('click',e=>{
+  const card=e.target.closest('.part-card'); if(card) pickPart(card);
 });
 document.querySelectorAll('.mode-card').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.mode-card').forEach(c=>c.classList.remove('selected'));
@@ -235,6 +260,12 @@ function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random
 $('start').addEventListener('click',()=>{
   let pool=[];
   if(selPart==='ALL') parts.forEach(p=>DATA[p].forEach(q=>pool.push({...q,part:p})));
+  else if(selPart==='OPEN_SHORT'||selPart==='OPEN_LONG'){
+    const want=selPart==='OPEN_SHORT'?'short':'long';
+    parts.forEach(p=>DATA[p].forEach(q=>{
+      if(!q.options.length && openCategory(q)===want) pool.push({...q,part:p});
+    }));
+  }
   else DATA[selPart].forEach(q=>pool.push({...q,part:selPart}));
   quiz = shuffle(pool).map(q=>{
     if(!q.options.length) return q;
@@ -313,17 +344,20 @@ function render(){
 function gradeOpen(q,ta,submitBtn){
   if(revealed) return;
   revealed=true;
-  const {earned,max}=scoreQuestion(q,null,ta.value);
-  const ok=earned===max && max>0 ? true : earned>0;
+  const res=scoreQuestion(q,null,ta.value);
+  const {earned,max}=res;
   results.push({q,pickedArr:null,userText:ta.value,earned,max});
   if(selMode==='practice'){
     ta.disabled=true; submitBtn.disabled=true;
     const ab=document.createElement('div'); ab.className='answer-box';
     ab.innerHTML=`<div class="lbl">Correct answer</div>${escapeHtml(q.answer||'—')}`;
     $('qbody').appendChild(ab);
-    $('feedback').innerHTML=`<div class="feedback ${ok?'ok':'bad'}">${ok
-      ? `✓ Exact match — ${earned} / ${max} pts`
-      : `✗ Not word-for-word — ${earned} / ${max} pts`}</div>`;
+    const cls = earned===max ? 'ok' : earned>0 ? 'mid' : 'bad';
+    const cov = res.total ? ` · matched ${res.matched}/${res.total} key words` : '';
+    const label = earned===max ? `✓ Correct — ${earned} / ${max} pts${cov}`
+      : earned>0 ? `◐ Partial — ${earned} / ${max} pts${cov}`
+      : `✗ Incorrect — 0 / ${max} pts${cov}`;
+    $('feedback').innerHTML=`<div class="feedback ${cls}">${label}</div>`;
     $('actions').innerHTML='';
     $('actions').appendChild(mkBtn(idx+1<quiz.length?'Next question →':'See results','btn',next));
     window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
@@ -419,8 +453,21 @@ function parseMaxPoints(text){
   const m=String(text).match(/\[(\d+)\]\s*$/);
   return m?parseInt(m[1],10):1;
 }
-// Strict, word-for-word comparison for open questions.
-// Lowercase, strip punctuation, collapse whitespace, then require identical words.
+// Categorize an open question as short (a few words) or long (a phrase).
+function openCategory(q){
+  const t=q.q.toLowerCase();
+  const phrase=/phrase/.test(t);
+  const wm=t.match(/max\.?\s*(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s*words?/);
+  const map={one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10};
+  if(wm && !phrase){
+    const n=map[wm[1]]!==undefined?map[wm[1]]:parseInt(wm[1],10);
+    return n<=6?'short':'long';
+  }
+  if(phrase) return 'long';
+  return parseMaxPoints(q.q)>=5?'long':'short';
+}
+
+// Lenient, word-based comparison for open questions.
 function normalizeText(s){
   return String(s)
     .toLowerCase()
@@ -428,15 +475,57 @@ function normalizeText(s){
     .replace(/\s+/g,' ')
     .trim();
 }
-function strictMatch(user,answer){
-  const a=normalizeText(user), b=normalizeText(answer);
-  return a.length>0 && a===b;
+const STOP_WORDS=new Set(('a an the of in on to and or is are was were be been being that this these those '+
+  'with for as by from at into it its their there they them he she his her our your you we i do does did '+
+  'has have had not no can could should would will shall may might must over under than then so such about '+
+  'which who whom whose what when where why how each every any all some more most other only also both '+
+  'between within upon per via etc').split(/\s+/));
+function toWords(s){ return normalizeText(s).split(' ').filter(Boolean); }
+function stem(w){
+  return w.replace(/ies$/,'y').replace(/(ing|edness|edly)$/,'').replace(/(es|ed|s)$/,'');
 }
-// Score any question -> {earned, max}
+// Small Levenshtein for typo tolerance (returns 2 as "too far" once >1).
+function levLE1(a,b){
+  if(a===b) return 0;
+  if(Math.abs(a.length-b.length)>1) return 2;
+  const m=a.length,n=b.length;
+  let prev=new Array(n+1); for(let j=0;j<=n;j++) prev[j]=j;
+  for(let i=1;i<=m;i++){
+    const cur=[i];
+    for(let j=1;j<=n;j++){
+      cur[j]=Math.min(prev[j]+1, cur[j-1]+1, prev[j-1]+(a[i-1]===b[j-1]?0:1));
+    }
+    prev=cur;
+  }
+  return prev[n];
+}
+function keyWordMatched(kw, userWords, userStems){
+  if(userWords.includes(kw)) return true;
+  const ks=stem(kw);
+  if(userStems.includes(ks)) return true;
+  if(kw.length>=4){                              // typo tolerance for longer words only
+    for(const uw of userWords){ if(levLE1(kw,uw)<=1) return true; }
+  }
+  return false;
+}
+// Partial credit by fraction of the answer's key words the user covered.
+function scoreOpen(userText, answer, max){
+  const usr=toWords(userText);
+  const keys=[...new Set(toWords(answer).filter(w=>!STOP_WORDS.has(w) && w.length>1))];
+  if(keys.length===0){                           // no key words to match against
+    return {earned: usr.length?max:0, max, matched:0, total:0};
+  }
+  if(usr.length===0) return {earned:0, max, matched:0, total:keys.length};
+  const usrStems=usr.map(stem);
+  let matched=0;
+  keys.forEach(kw=>{ if(keyWordMatched(kw,usr,usrStems)) matched++; });
+  const coverage=matched/keys.length;
+  return {earned:Math.round(coverage*max), max, matched, total:keys.length};
+}
+// Score any question -> {earned, max, ...}
 function scoreQuestion(q,pickedArr,userText){
   if(!q.options.length){                       // free-text
-    const max=parseMaxPoints(q.q);
-    return {earned:strictMatch(userText,q.answer||'')?max:0, max};
+    return scoreOpen(userText, q.answer||'', parseMaxPoints(q.q));
   }
   const correct=new Set(q.correct);
   const picked=new Set(pickedArr||[]);
