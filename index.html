@@ -171,6 +171,13 @@ footer{text-align:center;color:var(--muted);font-size:.75rem;margin-top:40px}
         <span class="count" id="long-count"></span>
       </button>
     </div>
+    <div class="section-label">Multiple / single choice only</div>
+    <div class="parts" id="choice-parts">
+      <button class="part-card all" data-part="CHOICE_ALL">
+        <span class="name">☑️ Choice questions only</span>
+        <span class="count" id="choice-count"></span>
+      </button>
+    </div>
     <div class="section-label">Mode</div>
     <div class="mode-row">
       <button class="mode-card selected" data-mode="practice">
@@ -231,13 +238,15 @@ allBtn.className='part-card all'; allBtn.dataset.part='ALL';
 allBtn.innerHTML=`<span class="name">🔥 All parts — full mix</span><span class="count">${allCount} questions</span>`;
 partsEl.appendChild(allBtn);
 
-// counts for the open-answer training blocks
-let shortN=0, longN=0;
+// counts for the training blocks
+let shortN=0, longN=0, choiceN=0;
 parts.forEach(p=>DATA[p].forEach(q=>{
   if(!q.options.length){ openCategory(q)==='short' ? shortN++ : longN++; }
+  else choiceN++;
 }));
 $('short-count').textContent=`${shortN} questions`;
 $('long-count').textContent=`${longN} questions`;
+$('choice-count').textContent=`${choiceN} questions`;
 
 function pickPart(card){
   document.querySelectorAll('.part-card').forEach(c=>c.classList.remove('selected'));
@@ -248,6 +257,9 @@ partsEl.addEventListener('click',e=>{
   const card=e.target.closest('.part-card'); if(card) pickPart(card);
 });
 $('open-parts').addEventListener('click',e=>{
+  const card=e.target.closest('.part-card'); if(card) pickPart(card);
+});
+$('choice-parts').addEventListener('click',e=>{
   const card=e.target.closest('.part-card'); if(card) pickPart(card);
 });
 document.querySelectorAll('.mode-card').forEach(b=>b.addEventListener('click',()=>{
@@ -264,6 +276,11 @@ $('start').addEventListener('click',()=>{
     const want=selPart==='OPEN_SHORT'?'short':'long';
     parts.forEach(p=>DATA[p].forEach(q=>{
       if(!q.options.length && openCategory(q)===want) pool.push({...q,part:p});
+    }));
+  }
+  else if(selPart==='CHOICE_ALL'){
+    parts.forEach(p=>DATA[p].forEach(q=>{
+      if(q.options.length) pool.push({...q,part:p});
     }));
   }
   else DATA[selPart].forEach(q=>pool.push({...q,part:selPart}));
