@@ -161,10 +161,14 @@ footer{text-align:center;color:var(--muted);font-size:.75rem;margin-top:40px}
     <div class="section-label">Choose a part</div>
     <div class="parts" id="parts"></div>
     <div class="section-label">Open-answer training (type it out)</div>
-    <div class="mode-row" id="open-parts">
+    <div class="parts" id="open-parts">
       <button class="part-card" data-part="OPEN_SHORT">
         <span class="name">✍️ Short answers</span>
         <span class="count" id="short-count"></span>
+      </button>
+      <button class="part-card" data-part="OPEN_MEDIUM">
+        <span class="name">📄 Medium answers</span>
+        <span class="count" id="medium-count"></span>
       </button>
       <button class="part-card" data-part="OPEN_LONG">
         <span class="name">📝 Long answers</span>
@@ -239,12 +243,15 @@ allBtn.innerHTML=`<span class="name">🔥 All parts — full mix</span><span cla
 partsEl.appendChild(allBtn);
 
 // counts for the training blocks
-let shortN=0, longN=0, choiceN=0;
+let shortN=0, medN=0, longN=0, choiceN=0;
 parts.forEach(p=>DATA[p].forEach(q=>{
-  if(!q.options.length){ openCategory(q)==='short' ? shortN++ : longN++; }
-  else choiceN++;
+  if(!q.options.length){
+    const c=openCategory(q);
+    if(c==='short') shortN++; else if(c==='medium') medN++; else longN++;
+  } else choiceN++;
 }));
 $('short-count').textContent=`${shortN} questions`;
+$('medium-count').textContent=`${medN} questions`;
 $('long-count').textContent=`${longN} questions`;
 $('choice-count').textContent=`${choiceN} questions`;
 
@@ -272,8 +279,8 @@ function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random
 $('start').addEventListener('click',()=>{
   let pool=[];
   if(selPart==='ALL') parts.forEach(p=>DATA[p].forEach(q=>pool.push({...q,part:p})));
-  else if(selPart==='OPEN_SHORT'||selPart==='OPEN_LONG'){
-    const want=selPart==='OPEN_SHORT'?'short':'long';
+  else if(selPart==='OPEN_SHORT'||selPart==='OPEN_MEDIUM'||selPart==='OPEN_LONG'){
+    const want=selPart==='OPEN_SHORT'?'short':selPart==='OPEN_MEDIUM'?'medium':'long';
     parts.forEach(p=>DATA[p].forEach(q=>{
       if(!q.options.length && openCategory(q)===want) pool.push({...q,part:p});
     }));
@@ -470,18 +477,30 @@ function parseMaxPoints(text){
   const m=String(text).match(/\[(\d+)\]\s*$/);
   return m?parseInt(m[1],10):1;
 }
-// Categorize an open question as short (a few words) or long (a phrase).
+// Categorize an open question as short (a few words), medium (a short list /
+// summary with a word cap), or long (an open-ended phrase).
+// Specific questions forced into the medium block regardless of wording:
+const MEDIUM_OVERRIDES=[
+  'traditional role of a project plan',
+  'differs from a plan used in a defined development model',
+  'primary responsibilities of the project leader'
+];
 function openCategory(q){
   const t=q.q.toLowerCase();
-  const phrase=/phrase/.test(t);
+  if(MEDIUM_OVERRIDES.some(s=>t.includes(s))) return 'medium';
+  if(/phrase/.test(t)) return 'long';
   const wm=t.match(/max\.?\s*(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s*words?/);
   const map={one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10};
-  if(wm && !phrase){
+  if(wm){
     const n=map[wm[1]]!==undefined?map[wm[1]]:parseInt(wm[1],10);
-    return n<=6?'short':'long';
+    if(n<=6) return 'short';
+    if(n<=20) return 'medium';
+    return 'long';
   }
-  if(phrase) return 'long';
-  return parseMaxPoints(q.q)>=5?'long':'short';
+  const pts=parseMaxPoints(q.q);
+  if(pts<=3) return 'short';
+  if(pts<=6) return 'medium';
+  return 'long';
 }
 
 // Lenient, word-based comparison for open questions.
