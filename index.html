@@ -186,7 +186,7 @@ footer{text-align:center;color:var(--muted);font-size:.75rem;margin-top:40px}
       </button>
       <button class="mode-card" data-mode="exam">
         <div class="name">Exam</div>
-        <div class="desc">Points scored, results at the end · 50% to pass</div>
+        <div class="desc">Points scored, results at the end · 80% to pass</div>
       </button>
     </div>
     <button class="start-btn" id="start" disabled>Start quiz</button>
@@ -421,7 +421,7 @@ function showResults(){
   const earned=results.reduce((s,x)=>s+x.earned,0);
   const total=results.reduce((s,x)=>s+x.max,0);
   const pct=total?Math.round(earned/total*100):0;
-  const passed=pct>=50;                          // 50% pass mark (like 50/100 in the exam)
+  const passed=pct>=80;                          // 80% pass mark per quiz
   const color=passed?'var(--green)':'var(--red)';
   const C=2*Math.PI*62;
   let html=`<div class="result-card">
@@ -431,7 +431,7 @@ function showResults(){
         stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct/100)}"/></svg>
       <div class="num"><b>${earned}<span style="font-size:1rem;color:var(--muted)">/${total}</span></b><span>${pct}% · ${passed?'PASS':'FAIL'}</span></div>
     </div>
-    <div class="result-line">${passed?'✓ Above the 50% pass mark — well done! 🎉':'✗ Below the 50% pass mark — review the items below.'}</div>
+    <div class="result-line">${passed?'✓ Above the 80% pass mark — well done! 🎉':'✗ Below the 80% pass mark — review the items below.'}</div>
     <div class="actions" style="margin-top:0">
       <button class="btn ghost" id="home-btn">Home</button>
       <button class="btn" id="retry-btn">Try again</button>
