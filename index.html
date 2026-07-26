@@ -158,6 +158,13 @@ footer{text-align:center;color:var(--muted);font-size:.75rem;margin-top:40px}
 
   <!-- HOME -->
   <div id="home">
+    <div class="section-label">Full mock exam</div>
+    <div class="parts" id="mock-parts">
+      <button class="part-card all" data-part="MOCK">
+        <span class="name">🎯 Mock exam — real conditions</span>
+        <span class="count">~42 random queries · 100 pts · 50 to pass · free-text heavy</span>
+      </button>
+    </div>
     <div class="section-label">Choose a part</div>
     <div class="parts" id="parts"></div>
     <div class="section-label">Open-answer training (type it out)</div>
@@ -225,6 +232,7 @@ const LETTERS = 'ABCDEFGH';
 let selPart = null, selMode = 'practice';
 let quiz = [], idx = 0, results = [];
 let picked = new Set(), revealed = false;
+let passMark = 80;   // % needed to pass; 50 for the mock exam
 
 /* ---------- home ---------- */
 const partsEl = $('parts');
@@ -263,6 +271,9 @@ function pickPart(card){
 partsEl.addEventListener('click',e=>{
   const card=e.target.closest('.part-card'); if(card) pickPart(card);
 });
+$('mock-parts').addEventListener('click',e=>{
+  const card=e.target.closest('.part-card'); if(card) pickPart(card);
+});
 $('open-parts').addEventListener('click',e=>{
   const card=e.target.closest('.part-card'); if(card) pickPart(card);
 });
@@ -276,9 +287,46 @@ document.querySelectorAll('.mode-card').forEach(b=>b.addEventListener('click',()
 
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 
+// Max points a question is worth (single=1, multi=#correct, free-text=[N]).
+function maxPointsOf(q){
+  if(!q.options.length) return parseMaxPoints(q.q);
+  return q.correct.length>1 ? q.correct.length : 1;
+}
+// Build a randomized exam close to the real one: ~40-45 queries, ~100 points,
+// with the majority of points coming from free-text queries.
+function buildMockExam(){
+  const open=[], single=[], multi=[];
+  parts.forEach(p=>DATA[p].forEach(q=>{
+    const item={...q,part:p};
+    if(!q.options.length) open.push(item);
+    else if(q.correct.length>1) multi.push(item);
+    else single.push(item);
+  }));
+  shuffle(open); shuffle(single); shuffle(multi);
+  const pool=[]; let total=0, openPts=0;
+  // 1) free-text first, until it supplies the majority of points (~55)
+  for(const q of open){
+    if(openPts>=55) break;
+    pool.push(q); const pp=maxPointsOf(q); total+=pp; openPts+=pp;
+  }
+  // 2) fill with single/multi choice toward ~100 pts and ~42 queries
+  const choice=shuffle([...single,...multi]);
+  for(const q of choice){
+    if(total>=100 || pool.length>=45) break;
+    pool.push(q); total+=maxPointsOf(q);
+  }
+  return shuffle(pool);
+}
+
 $('start').addEventListener('click',()=>{
+  // effective mode & pass mark: mock exam is always exam mode at 50%
+  const modeCard=document.querySelector('.mode-card.selected');
+  selMode = selPart==='MOCK' ? 'exam' : (modeCard?modeCard.dataset.mode:'practice');
+  passMark = selPart==='MOCK' ? 50 : 80;
+
   let pool=[];
-  if(selPart==='ALL') parts.forEach(p=>DATA[p].forEach(q=>pool.push({...q,part:p})));
+  if(selPart==='MOCK') pool=buildMockExam();
+  else if(selPart==='ALL') parts.forEach(p=>DATA[p].forEach(q=>pool.push({...q,part:p})));
   else if(selPart==='OPEN_SHORT'||selPart==='OPEN_MEDIUM'||selPart==='OPEN_LONG'){
     const want=selPart==='OPEN_SHORT'?'short':selPart==='OPEN_MEDIUM'?'medium':'long';
     parts.forEach(p=>DATA[p].forEach(q=>{
@@ -428,7 +476,7 @@ function showResults(){
   const earned=results.reduce((s,x)=>s+x.earned,0);
   const total=results.reduce((s,x)=>s+x.max,0);
   const pct=total?Math.round(earned/total*100):0;
-  const passed=pct>=80;                          // 80% pass mark per quiz
+  const passed=pct>=passMark;                    // 80% per quiz, 50% for the mock exam
   const color=passed?'var(--green)':'var(--red)';
   const C=2*Math.PI*62;
   let html=`<div class="result-card">
@@ -438,7 +486,7 @@ function showResults(){
         stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct/100)}"/></svg>
       <div class="num"><b>${earned}<span style="font-size:1rem;color:var(--muted)">/${total}</span></b><span>${pct}% · ${passed?'PASS':'FAIL'}</span></div>
     </div>
-    <div class="result-line">${passed?'✓ Above the 80% pass mark — well done! 🎉':'✗ Below the 80% pass mark — review the items below.'}</div>
+    <div class="result-line">${passed?`✓ Above the ${passMark}% pass mark — well done! 🎉`:`✗ Below the ${passMark}% pass mark — review the items below.`}</div>
     <div class="actions" style="margin-top:0">
       <button class="btn ghost" id="home-btn">Home</button>
       <button class="btn" id="retry-btn">Try again</button>
