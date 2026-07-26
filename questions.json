@@ -400,7 +400,7 @@
    "q": "Explain the concept of \"escaped defects\" in quality assurance. Max. one phrase![8]",
    "options": [],
    "correct": [],
-   "answer": "It refers to defects that have bypassed quality assurance processes and have been identified after the product is released or delivered to the customer."
+   "answer": "It refers to defects that have bypassed quality assurance processes and have been identified after the product is released or during subsequent iterations."
   }
  ],
  "E": [
