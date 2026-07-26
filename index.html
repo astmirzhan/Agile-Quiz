@@ -479,13 +479,13 @@ function parseMaxPoints(text){
 }
 // Categorize an open question as short (a few words), medium (a short list /
 // summary with a word cap), or long (an open-ended phrase).
-// Specific questions forced into the medium block regardless of wording:
-const MEDIUM_OVERRIDES=[
-  'traditional role of a project plan',
-  'differs from a plan used in a defined development model',
-  'primary responsibilities of the project leader'
-];
 function openCategory(q){
+  // Specific questions forced into the medium block regardless of wording:
+  const MEDIUM_OVERRIDES=[
+    'traditional role of a project plan',
+    'differs from a plan used in a defined development model',
+    'primary responsibilities of the project leader'
+  ];
   const t=q.q.toLowerCase();
   if(MEDIUM_OVERRIDES.some(s=>t.includes(s))) return 'medium';
   if(/phrase/.test(t)) return 'long';
